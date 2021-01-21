@@ -1,10 +1,10 @@
 #!/bin/bash
 
-[[ -z "${JOB_NAME}" ]] && echo "Job name not set" && exit 1 || jobname="${JOB_NAME}"
-[[ -z "${BRANCH_NAME}" ]] && echo "Branch name not set" && exit 1 || branch="${BRANCH_NAME}"
-[[ -z "${JENKINS_USER}" ]] && echo "Jenkins user not set" && exit 1 || jenkinsuser="${JENKINS_USER}"
-[[ -z "${JENKINS_TOKEN}" ]] && echo "Jenkins token not set" && exit 1 || jenkinstoken="${JENKINS_TOKEN}"
-[[ -z "${JENKINS_URL}" ]] && echo "Jenkins URL not set" && exit 1 || jenkinsurl="${JENKINS_URL}"
+[[ -z "${INPUT_JOB_NAME}" ]] && echo "Job name not set" && exit 1 || jobname="${INPUT_JOB_NAME}"
+[[ -z "${INPUT_BRANCH_NAME}" ]] && echo "Branch name not set" && exit 1 || branch="${INPUT_BRANCH_NAME}"
+[[ -z "${INPUT_JENKINS_USER}" ]] && echo "Jenkins user not set" && exit 1 || jenkinsuser="${INPUT_JENKINS_USER}"
+[[ -z "${INPUT_JENKINS_TOKEN}" ]] && echo "Jenkins token not set" && exit 1 || jenkinstoken="${INPUT_JENKINS_TOKEN}"
+[[ -z "${INPUT_JENKINS_URL}" ]] && echo "Jenkins URL not set" && exit 1 || jenkinsurl="${INPUT_JENKINS_URL}"
 
 buildstatus=$(curl --silent -u $jenkinsuser:$jenkinstoken $jenkinsurl/$jobname/$branch/api/json | jq -r '.color')
 

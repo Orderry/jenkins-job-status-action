@@ -1,4 +1,4 @@
-FROM alpine:3.10
+FROM cfmanteiga/alpine-bash-curl-jq:latest
 
 COPY entrypoint.sh /entrypoint.sh
 
