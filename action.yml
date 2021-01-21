@@ -1,0 +1,22 @@
+# action.yml
+name: 'Check Jenkins job'
+description: 'Checking Jenkins job status by branch with startup type decision'
+inputs:
+  jenkins_user: 
+    description: 'Jenkins user login'
+    required: true
+  jenkins_token:
+    description: 'Jenkins user token. https://support.cloudbees.com/hc/en-us/articles/115003090592-How-to-re-generate-my-Jenkins-user-token'
+    required: true
+  jenkins_url:
+    description: 'Jenkins url. Example: jenkins.yourdomain.com'
+    required: true
+  job_name:
+    description: 'Job name. Example: job/manual-deploy-environment-sandbox/job'
+    required: true
+  branch_name:
+    description: 'Clear branch/PR name. Example: DEV-1234, PR-77'
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
