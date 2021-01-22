@@ -25,7 +25,7 @@ Startup type message
 Result of POST call to Jenkins Job API
 ## Example usage
 
-uses: Orderry/jenkins-job-status@v1
+uses: Orderry/jenkins-job-status@v1.1
 with:
   jenkins_user: 'username'
   jenkins_token: 'token'

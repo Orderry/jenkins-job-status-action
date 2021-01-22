@@ -10,7 +10,7 @@ describejob=$(curl --silent -u $jenkinsuser:$jenkinstoken $jenkinsurl/$jobname/$
 buildstatus=$(echo $describejob | jq -r '.color')
 
 echo "::set-output name=status::$buildstatus"
-#http://<Jenkins_URL>/job/<Job_Name>/<Build_Number>/stop
+
 if [ "$buildstatus" == "notbuilt_anime" ] || [ "$buildstatus" == "blue_anime" ] || [ "$buildstatus" == "red_anime" ]; then
     message="Environment already running 👟. Will be restarted from last branch commit 🔁"
     echo "::set-output name=decision::$message"
@@ -44,7 +44,7 @@ elif [ "$buildstatus" == "notbuilt" ]; then
 
     #Start without parameters"
     code=$(curl -X POST -s -o /dev/null -I -w "%{http_code}" -u "$jenkinsuser:$jenkinstoken" "$jenkinsurl/$jobname/$branch/build?token=$jenkinstoken")
-    [[ $code -eq 200 ]] && echo "::set-output name=result::'Triggered HTTP/$code'" || echo "::set-output name=result::'Job triggered HTTP/$code'"
+    [[ $code -eq 200 ]] || [[ $code -eq 201 ]] && echo "::set-output name=result::'Triggered HTTP/$code'" || echo "::set-output name=result::'Job trigger failed HTTP/$code'"
 
 else
     message="❌ Unknown status from Jenkins ❌. Please retry in 1 minute or contact DevOps engineer 🔧"
