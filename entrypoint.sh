@@ -28,7 +28,7 @@ if [ "$buildstatus" == "notbuilt_anime" ] || [ "$buildstatus" == "blue_anime" ] 
     echo "Sleepeng 30 sec"
     sleep 30s
     startcode=$(curl -X POST -s -o /dev/null -I -w "%{http_code}" -u "$jenkinsuser:$jenkinstoken" "$jenkinsurl/$jobname/$branch/buildWithParameters?token=$jenkinstoken")
-    [[ $startcode -eq 200 ]] || [[ $startcode -eq 201 ]] && echo "::set-output name=result::'Triggered HTTP/$startcode'" || echo "::set-output name=result::'Job trigger failed HTTP/$startcode'"
+    [[ $startcode -eq 200 ]] || [[ $startcode -eq 201 ]] && echo "::set-output name=result::'Triggered HTTP/$startcode'" && exit 0 || echo "::set-output name=result::'Job trigger failed HTTP/$startcode'"
 
 elif [ "$buildstatus" == "blue" ] || [ "$buildstatus" == "red" ] || [ "$buildstatus" == "aborted" ]; then
     message="Environment stopped ⏹️. Running with default parameters ⏩"
@@ -36,7 +36,7 @@ elif [ "$buildstatus" == "blue" ] || [ "$buildstatus" == "red" ] || [ "$buildsta
 
     #Start with parameters
     code=$(curl -X POST -s -o /dev/null -I -w "%{http_code}" -u "$jenkinsuser:$jenkinstoken" "$jenkinsurl/$jobname/$branch/buildWithParameters?token=$jenkinstoken")
-    [[ $code -eq 200 ]] || [[ $code -eq 201 ]] && echo "::set-output name=result::'Triggered HTTP/$code'" || echo "::set-output name=result::'Job trigger failed HTTP/$code'" 
+    [[ $code -eq 200 ]] || [[ $code -eq 201 ]] && echo "::set-output name=result::'Triggered HTTP/$code'" && exit 0 || echo "::set-output name=result::'Job trigger failed HTTP/$code'" 
 
 elif [ "$buildstatus" == "notbuilt" ]; then
     message="❕ It's a first run for this branch ❕. Deployment will be run with draft_mini database copy ⏩."
@@ -44,7 +44,7 @@ elif [ "$buildstatus" == "notbuilt" ]; then
 
     #Start without parameters"
     code=$(curl -X POST -s -o /dev/null -I -w "%{http_code}" -u "$jenkinsuser:$jenkinstoken" "$jenkinsurl/$jobname/$branch/build?token=$jenkinstoken")
-    [[ $code -eq 200 ]] || [[ $code -eq 201 ]] && echo "::set-output name=result::'Triggered HTTP/$code'" || echo "::set-output name=result::'Job trigger failed HTTP/$code'"
+    [[ $code -eq 200 ]] || [[ $code -eq 201 ]] && echo "::set-output name=result::'Triggered HTTP/$code'" && exit 1 || echo "::set-output name=result::'Job trigger failed HTTP/$code'"
 
 else
     message="❌ Unknown status from Jenkins ❌. Please retry in 1 minute or contact DevOps engineer 🔧"
