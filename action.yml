@@ -9,7 +9,7 @@ inputs:
     description: 'Jenkins user token. https://support.cloudbees.com/hc/en-us/articles/115003090592-How-to-re-generate-my-Jenkins-user-token'
     required: true
   jenkins_url:
-    description: 'Jenkins url. Example: jenkins.yourdomain.com'
+    description: 'Jenkins url. Example: https://jenkins.yourdomain.com'
     required: true
   job_name:
     description: 'Job name. Example: job/manual-deploy-environment-sandbox/job'
@@ -17,6 +17,13 @@ inputs:
   branch_name:
     description: 'Clear branch/PR name. Example: DEV-1234, PR-77'
     required: true
+outputs:
+  status:
+    description: 'Status color from jenkins API'
+  decision:
+    description: 'Decision message'
+  result:
+    description: 'Result of POST call to Jenkins Job API'
 runs:
   using: 'docker'
   image: 'Dockerfile'

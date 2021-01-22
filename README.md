@@ -21,7 +21,8 @@ This action starts Jenkins Multibranch pipeline branch/PR job with previous stat
 Job status color from API
 ### `decision`
 Startup type message
-
+### `result`
+Result of POST call to Jenkins Job API
 ## Example usage
 
 uses: Orderry/jenkins-job-status@v1
