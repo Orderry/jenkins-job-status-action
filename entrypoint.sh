@@ -8,6 +8,9 @@
 
 describejob=$(curl --silent -u $jenkinsuser:$jenkinstoken $jenkinsurl/$jobname/$branch/api/json)
 buildstatus=$(echo $describejob | jq -r '.color')
+echo "$jenkinsurl/$jobname/$branch/api/json"
+echo "$describejob"
+echo "$buildstatus"
 
 echo "::set-output name=status::$buildstatus"
 
@@ -22,7 +25,7 @@ if [ "$buildstatus" == "notbuilt_anime" ] || [ "$buildstatus" == "blue_anime" ] 
     apicall=$(curl --silent -u $jenkinsuser:$jenkinstoken $jenkinsurl/$jobname/$branch/$jobbuildid/wfapi/pendingInputActions)
     inputid=$(echo "$apicall" | jq -r '.[0] .id')
     code=$(curl -X POST -s -o /dev/null -I -w "%{http_code}" -u "$jenkinsuser:$jenkinstoken" "$jenkinsurl/$jobname/$branch/$jobbuildid/input/$inputid/proceedEmpty")
-    [[ $code -eq 200 ]] || [[ $code -eq 201 ]] && echo "::set-output name=result::'Stoping triggered HTTP/$code'" || echo "::set-output name=result::'Stopping trigger failed HTTP/$code'" 
+    [[ $code -eq 200 ]] || [[ $code -eq 201 ]] && echo "::set-output name=result::Stoping triggered HTTP/$code" || echo "::set-output name=result::'Stopping trigger failed HTTP/$code. Trying to terminate job HTTP/$(curl -X POST -s -o /dev/null -I -w "%{http_code}" -u $jenkinsuser:$jenkinstoken $jenkinsurl/$jobname/$branch/lastBuild/stop)'" 
 
     #Start
     echo "Sleepeng 30 sec"
