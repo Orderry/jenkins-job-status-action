@@ -14,7 +14,7 @@ echo "$buildstatus"
 
 echo "::set-output name=status::$buildstatus"
 
-if [ "$buildstatus" == "notbuilt_anime" ] || [ "$buildstatus" == "blue_anime" ] || [ "$buildstatus" == "red_anime" ] || [ "$buildstatus" == "aborted_anime" ]; then
+if [ "$buildstatus" == "notbuilt_anime" ] || [ "$buildstatus" == "blue_anime" ] || [ "$buildstatus" == "yellow_anime" ] || [ "$buildstatus" == "red_anime" ] || [ "$buildstatus" == "aborted_anime" ]; then
     message="Environment already running 👟. Will be restarted from last branch commit 🔁"
     echo "::set-output name=decision::$message"
 
@@ -33,7 +33,7 @@ if [ "$buildstatus" == "notbuilt_anime" ] || [ "$buildstatus" == "blue_anime" ] 
     startcode=$(curl -X POST -s -o /dev/null -I -w "%{http_code}" -u "$jenkinsuser:$jenkinstoken" "$jenkinsurl/$jobname/$branch/buildWithParameters?token=$jenkinstoken")
     [[ $startcode -eq 200 ]] || [[ $startcode -eq 201 ]] && echo "::set-output name=result::'Triggered HTTP/$startcode'" && exit 0 || echo "::set-output name=result::'Job trigger failed HTTP/$startcode'"
 
-elif [ "$buildstatus" == "blue" ] || [ "$buildstatus" == "red" ] || [ "$buildstatus" == "aborted" ]; then
+elif [ "$buildstatus" == "blue" ] || [ "$buildstatus" == "yellow" ] || [ "$buildstatus" == "red" ] || [ "$buildstatus" == "aborted" ]; then
     message="Environment stopped ⏹️. Running with default parameters ⏩"
     echo "::set-output name=decision::$message"
 
